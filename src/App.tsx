@@ -9,9 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import FirstComponent from "./shared/components/FirstComponent";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MyButton from "./shared/components/MyButton";
+
 import Routes from "./Routes";
 import { Inter_400Regular, Inter_400Regular_Italic, Inter_800ExtraBold, useFonts } from '@expo-google-fonts/inter';
 import * as SplashScreen from 'expo-splash-screen';

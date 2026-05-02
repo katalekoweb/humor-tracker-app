@@ -5,6 +5,7 @@ import Home from "./screens/Home";
 import Detail from "./screens/Detail";
 import SetUserName from "./screens/SetUserName";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { theme } from "./shared/themes/Theme";
 
 type TScreensDefintions = {
   home: undefined;
@@ -22,7 +23,7 @@ const Routes = () => {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            
+            backgroundColor: theme.colors.background
           }
         }}
         screenLayout={({children}) => <SafeAreaView>{children}</SafeAreaView>}

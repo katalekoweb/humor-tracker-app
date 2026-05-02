@@ -1,12 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
 import { Button, Text, View } from "react-native";
 import { TNativeScreenProps } from "../Routes";
+import Header from "../shared/components/Header";
 
 const Home = () => {
   const navigation = useNavigation<TNativeScreenProps>();
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ padding: 0 }}>
+      <Header name={undefined} />
+
       <Text style={{fontFamily: 'extraBold'}}>Home...</Text>
       <Button
         title="Detalhes"

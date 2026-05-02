@@ -1,9 +1,9 @@
 export const theme = {
     colors: {
-        background: "#f2f2f2",
+        background: "#e9e9f3",
         paper: "#ffffff",
         text: "#000000",
-        primary: "#926dff",
+        primary: "#df7008",
         primaryText: "#ffffff",
         error: "#ff0000",
         highlight: "#e0d53b",
@@ -17,7 +17,7 @@ export const theme = {
         },
         family: {
             regular: 'regular',
-            bold: 'extraBold',
+            extraBold: 'extraBold',
             italic: 'italic'
         }
     },
