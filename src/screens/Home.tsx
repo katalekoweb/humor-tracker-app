@@ -1,11 +1,24 @@
-import { Text } from "react-native"
+import { useNavigation } from "@react-navigation/native";
+import { Button, Text, View } from "react-native";
+import { TNativeScreenProps } from "../Routes";
 
 const Home = () => {
-  return (
-    <>
-       <Text>Home...</Text>
-    </>
-  )
-}
+  const navigation = useNavigation<TNativeScreenProps>();
 
-export default Home
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>Home...</Text>
+      <Button
+        title="Detalhes"
+        onPress={() => navigation.navigate("detail", { rate: 5000 })}
+      />
+      <Text>Profile...</Text>
+      <Button
+        title="Go to definitions"
+        onPress={() => navigation.navigate("setUserName")}
+      />
+    </View>
+  );
+};
+
+export default Home;
