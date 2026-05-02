@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <View style={{ padding: 20 }}>
-      <Text>Home...</Text>
+      <Text style={{fontFamily: 'extraBold'}}>Home...</Text>
       <Button
         title="Detalhes"
         onPress={() => navigation.navigate("detail", { rate: 5000 })}

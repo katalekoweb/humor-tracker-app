@@ -19,7 +19,12 @@ const Routes = () => {
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="home" 
-        screenOptions={{headerShown: false}}
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            
+          }
+        }}
         screenLayout={({children}) => <SafeAreaView>{children}</SafeAreaView>}
         >
           <Stack.Screen name="home" component={Home} />
