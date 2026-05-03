@@ -2,25 +2,24 @@ import { useNavigation } from "@react-navigation/native";
 import { Button, Text, View } from "react-native";
 import { TNativeScreenProps } from "../Routes";
 import Header from "../shared/components/Header";
+import Footer from "../shared/components/Footer";
+import BaseInput from "../shared/components/BaseInput";
 
 const Home = () => {
   const navigation = useNavigation<TNativeScreenProps>();
 
   return (
-    <View style={{ padding: 0 }}>
+    <>
       <Header name={undefined} />
 
-      <Text style={{fontFamily: 'extraBold'}}>Home...</Text>
-      <Button
-        title="Detalhes"
-        onPress={() => navigation.navigate("detail", { rate: 5000 })}
-      />
-      <Text>Profile...</Text>
-      <Button
-        title="Go to definitions"
-        onPress={() => navigation.navigate("setUserName")}
-      />
-    </View>
+      <View style={{ flex: 1 }} />
+
+      <Footer>
+        <BaseInput label="Nome" asButton={true} onPress={() => navigation.navigate("setUserName")}>
+          <Text style={{ fontFamily: "extraBold" }}>Definir seu nome</Text>
+        </BaseInput>
+      </Footer>
+    </>
   );
 };
 
