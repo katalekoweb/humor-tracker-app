@@ -34,13 +34,24 @@ const Routes = () => {
 
           <Stack.Group screenOptions={{
             presentation: 'formSheet',
-            sheetCornerRadius: 20,           
-          }}>            
+            sheetCornerRadius: 20,
+            contentStyle: {
+              height: "100%",
+            }     
+          }}
+          screenLayout={({children}) => (
+            <SafeAreaView style={{
+              flex: 1,
+              paddingTop: 24,
+              backgroundColor: theme.colors.paper
+            }} edges={['left', 'right']}>{children}</SafeAreaView>
+          )}
+          >            
             <Stack.Screen name="detail" component={Detail} options={{
               sheetAllowedDetents: [0.8, 0.9]
             }} />
             <Stack.Screen name="setUserName" component={SetUserName} options={{
-              sheetAllowedDetents: [0.5, 0.6]
+              sheetAllowedDetents: [0.6]
             }} />
           </Stack.Group>
           

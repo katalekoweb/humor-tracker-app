@@ -1,9 +1,10 @@
 export const theme = {
     colors: {
-        background: "#e9e9f3",
+        background: "#F0F0F0",
         paper: "#ffffff",
         text: "#000000",
-        primary: "#df7008",
+        textPlaceholder: "#d6ddda",
+        primary: "#20c08b",
         primaryText: "#ffffff",
         error: "#ff0000",
         highlight: "#e0d53b",
