@@ -6,10 +6,11 @@ import Detail from "./screens/Detail";
 import SetUserName from "./screens/SetUserName";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "./shared/themes/Theme";
+import { HeaderTitle } from "@react-navigation/elements";
 
 type TScreensDefintions = {
-  home: undefined;
-  detail: { rate: number };
+  home: {newName?: string} | undefined;
+  detail: { rate: number } ;
   setUserName: undefined;
 }
 
@@ -21,7 +22,7 @@ const Routes = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="home" 
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           contentStyle: {
             backgroundColor: theme.colors.background
           }
@@ -30,7 +31,7 @@ const Routes = () => {
           <SafeAreaView style={{flex: 1}} edges={['top', 'left', 'right']}>{children}</SafeAreaView>
         )}
         >
-          <Stack.Screen name="home" component={Home} />
+          <Stack.Screen name="home" component={Home} options={{title: "Controle de Humor | Página Inicial"}} />
 
           <Stack.Group screenOptions={{
             presentation: 'formSheet',
@@ -48,10 +49,12 @@ const Routes = () => {
           )}
           >            
             <Stack.Screen name="detail" component={Detail} options={{
-              sheetAllowedDetents: [0.8, 0.9]
+              sheetAllowedDetents: [0.8, 0.9],
+              title: "Detalhes"
             }} />
             <Stack.Screen name="setUserName" component={SetUserName} options={{
-              sheetAllowedDetents: [0.6]
+              sheetAllowedDetents: [0.6],
+              title: "Definir o nome"
             }} />
           </Stack.Group>
           

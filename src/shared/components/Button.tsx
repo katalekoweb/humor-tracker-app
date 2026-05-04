@@ -5,11 +5,13 @@ import { theme } from "../themes/Theme";
 interface IButtonProps {
     title?: string
     children?: React.ReactNode;
+    onPress?: () => void
 }
 
-const Button = ({ children, title }: IButtonProps) => {
+const Button = ({ children, title, onPress }: IButtonProps) => {
   return (
     <Pressable
+        onPress={onPress}
       style={({ pressed }) => ({...styles.button, ...(pressed ? styles.buttonPressed : {})})}
     >
       { children && children }
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 8,
-    padding: 8,
+    padding: 16,
     backgroundColor: theme.colors.primary,
   },
   buttonPressed: {
