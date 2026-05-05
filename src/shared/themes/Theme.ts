@@ -2,12 +2,12 @@ export const theme = {
     colors: {
         background: "#F0F0F0",
         paper: "#ffffff",
-        text: "#000000",
-        textPlaceholder: "#d6ddda",
+        text: "#292b29",
+        textPlaceholder: "#78837e",
         primary: "#20c08b",
         primaryText: "#ffffff",
         error: "#ff0000",
-        highlight: "#e0d53b",
+        highlight: "#4cf39f",
         backgroundHighlight: "rgba(224, 213, 59, 0.17)",
     },
     fonts: {

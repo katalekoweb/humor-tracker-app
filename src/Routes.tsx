@@ -10,7 +10,7 @@ import { HeaderTitle } from "@react-navigation/elements";
 
 type TScreensDefintions = {
   home: {newName?: string} | undefined;
-  detail: { rate: number } ;
+  detail: { rate: number, id?: string } ;
   setUserName: undefined;
 }
 
@@ -31,7 +31,7 @@ const Routes = () => {
           <SafeAreaView style={{flex: 1}} edges={['top', 'left', 'right']}>{children}</SafeAreaView>
         )}
         >
-          <Stack.Screen name="home" component={Home} options={{title: "Controle de Humor | Página Inicial"}} />
+          <Stack.Screen name="home" component={Home} options={{title: "Controle de Humor"}} />
 
           <Stack.Group screenOptions={{
             presentation: 'formSheet',
@@ -49,7 +49,7 @@ const Routes = () => {
           )}
           >            
             <Stack.Screen name="detail" component={Detail} options={{
-              sheetAllowedDetents: [0.8, 0.9],
+              sheetAllowedDetents: [0.8],
               title: "Detalhes"
             }} />
             <Stack.Screen name="setUserName" component={SetUserName} options={{
