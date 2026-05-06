@@ -6,19 +6,26 @@ import BaseInput from "../shared/components/BaseInput"
 import Entypo from '@expo/vector-icons/Entypo';
 import Button from "../shared/components/Button"
 import { useState } from "react"
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+
 
 const Detail = () => {
+
+  const insets = useSafeAreaInsets();
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const {params} = useRoute<TRouteProps<'detail'>>()
   const navigation = useNavigation<TNativeScreenProps>();
 
   const [rate, setRate] = useState(params.rate)
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(new Date())
   const [description, setDescription] = useState('')
 
   return (
     <>
-        <View style={styles.footerContainer}>
+        <View style={{...styles.footerContainer, paddingBottom: insets.bottom + 16}}>
           <Text style={styles.footerTitle}>{ 'Como está o seu humor agora?' } </Text>
 
           <View style={styles.footerStarContainer}>
@@ -31,23 +38,32 @@ const Detail = () => {
             </View>
           
           <BaseInput
-            label="Data e Hora"
+            label="Data e Hora" asButton={true} onPress={() => setDatePickerVisibility(!isDatePickerVisible)}
           >
             <TextInput
-            value={date}
-            onChangeText={setDate}
-              placeholder="Escreva aqui..."
+              value={date.toLocaleString()} 
+              editable={false}
+              pointerEvents="none"
+              placeholder="Selecione a data e hora..."
               style={styles.footerInput}
             />
           </BaseInput>
+
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="datetime"
+            date={date}
+            onConfirm={(date) => {  setDatePickerVisibility(false); setDate(date) }}
+            onCancel={() => setDatePickerVisibility(false)}
+          />
 
           <BaseInput
             label="Mais detalhes"
           >
             <TextInput
             value={description}
-            onChangeText={setDate}
-              placeholder="Escreva aqui..."
+            onChangeText={setDescription}
+              placeholder="Escreva uma nota..."
               style={{...styles.footerInput, ...styles.footerInputArea}}
               numberOfLines={16}
             />
@@ -55,7 +71,7 @@ const Detail = () => {
 
           <View style={{flex: 1}} />
 
-          <view style={styles.actionContainer}>
+          <View style={styles.actionContainer}>
             { params.id && (
               <Button variant="outlined" color={theme.colors.error}>
               <Entypo name="trash" size={24} color={theme.colors.error} />
@@ -63,7 +79,7 @@ const Detail = () => {
             ) }
             <Button onPress={() => navigation.goBack()} variant="outlined" grow title="Cancelar" />
             <Button grow title="Salvar" />
-          </view>
+          </View>
         
         </View>
 
@@ -92,8 +108,6 @@ const styles = StyleSheet.create({
   footerInputArea: {
     height: theme.fonts.sizes.body * 16,
     textAlignVertical: 'top',
-    alignItems: 'flex-start',
-    textAlign: 'center'
   },
   emptyContainer: {
     display: 'flex',
