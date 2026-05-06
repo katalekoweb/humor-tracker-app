@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Button, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
+import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
 import { TNativeScreenProps, TRouteProps } from "../Routes";
 import Header from "../shared/components/Header";
 import Footer from "../shared/components/Footer";
@@ -8,11 +8,28 @@ import { theme } from "../shared/themes/Theme";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Entypo from '@expo/vector-icons/Entypo';
+import ListItem from "../shared/components/ListItem";
+
+
+interface IListItem {
+  id: string
+  description: string
+  rate: number
+  datetime: string
+}
 
 const Home = () => {
   const navigation = useNavigation<TNativeScreenProps>();
   const {params} = useRoute<TRouteProps<'home'>>()
   const [name, setName] = useState('')
+
+  const [list, setList] = useState<IListItem[]>([
+    {id: "124", rate: 5, description: "Um dia muito feliz", datetime: '06/05/27, 18:40'},
+    {id: "123344", rate: 2, description: "Um dia muito feliz", datetime: '06/05/27, 18:40'},
+    {id: "1234", rate: 4, description: "Um dia muito feliz", datetime: '06/05/27, 18:40'},
+    {id: "14234", rate: 1, description: "Um dia muito feliz", datetime: '06/05/27, 18:40'},
+    {id: "12454", rate: 2, description: "Um dia muito feliz", datetime: '06/05/27, 18:40'}
+  ])
 
   useEffect(() => {
     console.log("Rodou..."); 
@@ -29,12 +46,32 @@ const Home = () => {
     <>
       <Header name={name} />
 
-      <View style={styles.emptyContainer}>
+      {/* <View style={styles.emptyContainer}>
         <Text style={styles.emptyContentText}>
           Você ainda não {'\n'}
           registou seu humor!
           </Text>
-      </View>
+      </View> */}
+
+    {/* <ScrollView style={styles.listContainer}>
+        {list.map((item, index) => (
+          <ListItem rate={3} description="Hoje estou muito feliz" datetime="06/05/26, 18:00" />
+        ))}
+    </ScrollView> */}
+
+    <FlatList 
+      contentContainerStyle={styles.listContainer} data={list} keyExtractor={(item) => item.id} renderItem={(({item}) => (
+          <ListItem rate={item.rate} description={item.description} 
+          datetime={item.datetime} />
+        ))} ListEmptyComponent={(
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyContentText}>
+              Você ainda não {'\n'}
+              registou seu humor!
+              </Text>
+          </View> 
+        )} />
+      
 
       <Footer>
         <View style={styles.footerContainer}>
@@ -101,7 +138,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     paddingHorizontal: 16
-  }
+  },
+  listContainer: {
+    padding: 16,
+    flexGrow: 1,
+    gap: 8
+  },
 });
 
 export default Home;
