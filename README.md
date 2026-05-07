@@ -5,6 +5,13 @@
   <img src="./project-images/img2.png" width="250" />
 </p>
 
+
+## 🎥 Vídeo de demonstração
+
+### Link do vídeo
+[Assistir no YouTube](https://youtube.com/watch?v=SEU_VIDEO_ID)
+
+
 ## 📱 App de controle de humor pessoal com React Native e Expo
 
 O **HumorTrackApp** é um aplicativo mobile desenvolvido com React Native e Expo para registrar, acompanhar e visualizar o humor diário do usuário.
@@ -69,24 +76,6 @@ src/
 
 ### Tela de detalhes
 <img src="./project-images/img2.png" width="300" />
-
----
-
-## 🎥 Vídeo de demonstração
-
-### Link do vídeo
-[Assistir no YouTube](https://youtube.com/watch?v=SEU_VIDEO_ID)
-
-### Preview incorporado
-
-```html
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/SEU_VIDEO_ID"
-title="YouTube video player"
-frameborder="0"
-allowfullscreen>
-</iframe>
-```
 
 ---
 
