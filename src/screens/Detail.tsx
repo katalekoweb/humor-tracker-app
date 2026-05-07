@@ -27,8 +27,6 @@ const Detail = () => {
 
   const handleSave = async () => {
 
-    console.log('clicou salvar');
-
     let itemToSave = {
         id: "34534fre43r43",
         rate,
