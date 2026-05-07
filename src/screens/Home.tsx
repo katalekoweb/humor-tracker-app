@@ -35,7 +35,7 @@ const Home = () => {
   const [list, setList] = useState<IListItem[]>([]);
 
   useEffect(() => {
-    setName(params?.newName || "");
+    if (params?.newName) setName(params?.newName || "");
   }, [params?.newName]);
 
   useEffect(() => {
