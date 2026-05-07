@@ -8,9 +8,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "./shared/themes/Theme";
 import { HeaderTitle } from "@react-navigation/elements";
 
+type THumorItem = {
+  id: string
+  rate: number
+  datetime: number
+  description: string
+}
+
 type TScreensDefintions = {
-  home: {newName?: string} | undefined;
-  detail: { rate: number, id?: string } ;
+  home: {newName?: string, newItem?: THumorItem, idDeleted?: string } | undefined;
+  detail: { rate?: number, id?: string } ;
   setUserName: undefined;
 }
 

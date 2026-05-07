@@ -5,10 +5,12 @@ import { theme } from "../shared/themes/Theme"
 import BaseInput from "../shared/components/BaseInput"
 import Entypo from '@expo/vector-icons/Entypo';
 import Button from "../shared/components/Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import uuid from 'react-native-uuid';
+import { format } from "date-fns"
 
 const Detail = () => {
 
@@ -19,9 +21,101 @@ const Detail = () => {
   const {params} = useRoute<TRouteProps<'detail'>>()
   const navigation = useNavigation<TNativeScreenProps>();
 
-  const [rate, setRate] = useState(params.rate)
-  const [date, setDate] = useState(new Date())
+  const [rate, setRate] = useState(params.rate || 1)
+  const [datetime, setDatetime] = useState(new Date())
   const [description, setDescription] = useState('')
+
+  const handleSave = async () => {
+
+    console.log('clicou salvar');
+
+    let itemToSave = {
+        id: "34534fre43r43",
+        rate,
+        datetime: datetime.getTime(),
+        description
+    }
+
+    try {
+      itemToSave = {
+        id: params.id ?? uuid.v4(),
+        rate,
+        datetime: datetime.getTime(),
+        description
+      };
+
+    } catch (e) {
+      console.log('ERRO AQUI:', e);
+    }
+
+    try {
+      const itemsAsString = await AsyncStorage.getItem('humor-items')
+        .then(itemsAsString => !itemsAsString ? [] : JSON.parse(itemsAsString) as any[])
+
+        if (params.id) {
+          const index = itemsAsString.findIndex(item => item.id === params.id)
+
+          if (index < 0) {
+            itemsAsString.unshift(itemToSave)
+            return
+          }
+
+          itemsAsString.splice(index, 1, itemToSave)
+
+        } else itemsAsString.unshift(itemToSave)
+
+      await AsyncStorage.setItem('humor-items', JSON.stringify(itemsAsString))
+      
+      navigation.popTo('home', {
+        newItem: itemToSave
+      })
+    } catch (error) {
+      console.log(error);      
+    }
+
+    
+  }
+
+  const handleDelete = async () => {
+    try {
+      const itemsAsString = await AsyncStorage.getItem('humor-items')
+        .then(itemsAsString => !itemsAsString ? [] : JSON.parse(itemsAsString) as any[])
+
+        if (params.id) {
+          const index = itemsAsString.findIndex(item => item.id === params.id)
+
+          if (index < 0) {
+            return
+          }
+
+          itemsAsString.splice(index, 1)
+
+        }
+
+      await AsyncStorage.setItem('humor-items', JSON.stringify(itemsAsString))
+      
+      navigation.popTo('home', {idDeleted: params.id})
+
+    } catch (error) {
+      console.log(error);      
+    }
+  }
+
+  useEffect(() => {
+    if (params.id) {
+      AsyncStorage.getItem('humor-items')
+        .then(itemsAsString => !itemsAsString ? [] : JSON.parse(itemsAsString) as any[])
+        .then(items => {
+          const itemToUpdate = items.find(item => item.id === params.id)
+
+          if (!itemToUpdate) return
+
+          setRate(itemToUpdate.rate)
+          setDescription(itemToUpdate.description)
+          setDatetime(new Date(itemToUpdate.datetime))
+        })
+    }
+  }, [params?.id])
 
   return (
     <>
@@ -30,7 +124,7 @@ const Detail = () => {
 
           <View style={styles.footerStarContainer}>
               <TouchableOpacity onPress={() => setRate(1)}>
-                <Entypo name={ params.rate >= 1 ? "star" : "star-outlined"} size={36} color={rate >= 1 ? theme.colors.highlight : theme.colors.textPlaceholder} /></TouchableOpacity>
+                <Entypo name={ rate >= 1 ? "star" : "star-outlined"} size={36} color={rate >= 1 ? theme.colors.highlight : theme.colors.textPlaceholder} /></TouchableOpacity>
               <TouchableOpacity onPress={() => setRate(2)}><Entypo name={ rate >= 2 ? "star" : "star-outlined"} size={36} color={rate >= 2 ? theme.colors.highlight : theme.colors.textPlaceholder} /></TouchableOpacity>
               <TouchableOpacity onPress={() => setRate(3)}><Entypo name={ rate >= 3 ? "star" : "star-outlined"} size={36} color={rate >= 3 ? theme.colors.highlight : theme.colors.textPlaceholder} /></TouchableOpacity>
               <TouchableOpacity onPress={() => setRate(4)}><Entypo name={ rate >= 4 ? "star" : "star-outlined"} size={36} color={rate >= 4 ? theme.colors.highlight : theme.colors.textPlaceholder} /></TouchableOpacity>
@@ -41,7 +135,7 @@ const Detail = () => {
             label="Data e Hora" asButton={true} onPress={() => setDatePickerVisibility(!isDatePickerVisible)}
           >
             <TextInput
-              value={date.toLocaleString()} 
+              value={format(datetime, "dd/MM/yyyy 'as' HH:mm ")} 
               editable={false}
               pointerEvents="none"
               placeholder="Selecione a data e hora..."
@@ -52,8 +146,8 @@ const Detail = () => {
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="datetime"
-            date={date}
-            onConfirm={(date) => {  setDatePickerVisibility(false); setDate(date) }}
+            date={datetime}
+            onConfirm={(date) => {  setDatePickerVisibility(false); setDatetime(date) }}
             onCancel={() => setDatePickerVisibility(false)}
           />
 
@@ -73,12 +167,12 @@ const Detail = () => {
 
           <View style={styles.actionContainer}>
             { params.id && (
-              <Button variant="outlined" color={theme.colors.error}>
+              <Button variant="outlined" color={theme.colors.error} onPress={handleDelete}>
               <Entypo name="trash" size={24} color={theme.colors.error} />
             </Button>
             ) }
             <Button onPress={() => navigation.goBack()} variant="outlined" grow title="Cancelar" />
-            <Button grow title="Salvar" />
+            <Button grow onPress={() => handleSave()} title="Salvar" />
           </View>
         
         </View>

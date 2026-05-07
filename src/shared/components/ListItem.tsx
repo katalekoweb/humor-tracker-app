@@ -1,18 +1,22 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { theme } from "../themes/Theme";
 import Entypo from '@expo/vector-icons/Entypo';
+import { format } from "date-fns";
 
 interface IListItemProps {
-    datetime: string
+    datetime: number
     rate: number
     description?: string
+    onPress?: () => void
 }
 
-const ListItem = ({rate, datetime, description} : IListItemProps) => { 
+const ListItem = ({rate, datetime, description, onPress} : IListItemProps) => { 
   return (
-    <View style={styles.container}>
-      <Text style={styles.datetimeText}>{datetime}</Text>
+    <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={onPress}>
+      <Text style={styles.datetimeText}>
+        { format(new Date(datetime), "dd/MM/yyyy 'as' HH:mm ") }
+      </Text>
 
       <View style={styles.starContainer}>
 
@@ -20,7 +24,7 @@ const ListItem = ({rate, datetime, description} : IListItemProps) => {
             <Entypo 
             key={index}
             name={"star"} 
-            size={36} 
+            size={24} 
             style={{
                 ...styles.starFill, 
                 ...(index === 0 ? styles.starFillStart : {}),
@@ -33,17 +37,19 @@ const ListItem = ({rate, datetime, description} : IListItemProps) => {
             <Entypo 
             key={index}
             name={"star-outlined"} 
-            size={36} 
+            size={24} 
             style={styles.star}
             color={theme.colors.highlight} />
         ))}
 
       </View>
 
-      <Text style={styles.descriptionText}>
+      {description && (
+        <Text style={styles.descriptionText} numberOfLines={2}>
         {description}
       </Text>
-    </View>
+      )}
+    </TouchableOpacity>
   );
 };
 
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   },
   starFill: {
     backgroundColor: theme.colors.backgroundHighlight,
-    padding: 2
+    padding: 5
   },
   starFillStart: {
     backgroundColor: theme.colors.backgroundHighlight,
